@@ -1,0 +1,2 @@
+var getCityWeather = function () {};
+getCityWeather();
