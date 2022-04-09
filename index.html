@@ -12,6 +12,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   </head>
   <header>
     <div class="card">
@@ -27,14 +28,11 @@
       Search for a City:
       <div class="input-group">
         <input
-          type="search"
-          class="form-control rounded"
-          placeholder="Search"
-          aria-label="Search"
-          aria-describedby="search-addon"
-          id="searchButton"
-        />
-        <button type="button" class="btn btn-outline-primary">search</button>
+          name="cityInput"
+          type="text"
+          placeholder="Enter a city"
+          id="cityInput"
+        /><input type="submit" value="Submit" class="button" />
       </div>
     </div>
     <div id="weatherDisplay" class="col-9 float-right border border-dark">
@@ -43,6 +41,6 @@
       <p class="card-text">Wind</p>
       <p class="card-text">UV Index</p>
     </div>
-    <script src="./script.js"></script>
   </body>
+  <script src="./script.js"></script>
 </html>
