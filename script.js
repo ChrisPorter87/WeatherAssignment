@@ -83,6 +83,11 @@ var cityInput = cityInputEl.value.trim();
 var citySubmit = document.querySelector("#search-form");
 var button = document.querySelector(".button");
 var weatherDisplayEl = document.querySelector("weatherDisplay");
+var currentWeather = document.querySelector("#currentWeather");
+var lat = "";
+var lon = "";
+
+var moment = moment();
 var formSubmitHandler = function (event, getCityWeather) {
   event.preventDefault();
   var city = cityInput.value.trim();
@@ -97,22 +102,80 @@ var formSubmitHandler = function (event, getCityWeather) {
 button.addEventListener("click", function () {
   cityInput = cityInputEl.value.trim();
   // function getCityWeather(cityName) {
-
   fetch(
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    "http://api.openweathermap.org/geo/1.0/direct?q=" +
       cityInput +
       "&appid=" +
       apiKey
-  ).then(function (response) {
-    if (response.ok) {
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (response) {
+      lat = response[0].lat;
+      lon = response[0].lon;
       console.log(response);
-      response.json().then(function (data) {
-        console.log(data);
-        showCityWeather(weather.main.humidity);
+      fetch(
+        "https://api.openweathermap.org/data/2.5/onecall?lat=" +
+          response[0].lat +
+          "&lon=" +
+          response[0].lon +
+          "&appid=" +
+          apiKey +
+          "&units=imperial"
+      ).then(function (response) {
+        if (response.ok) {
+          console.log(response);
+          response.json().then(function (data) {
+            console.log(data);
+            var currentWeather = document.getElementById("currentWeather");
+            currentWeather.innerHTML = `
+
+            <h2>
+              ${cityInput} ${moment.format("MM/DD/YYYY")}  </h2>
+            <p class="temperature">Temperature: ${data.current.temp}</p>
+
+            <p class="humidity">Humidity: ${data.current.humidity}  %</p>
+            <p class="windspeed">Wind Speed: ${data.current.wind_speed}</p>
+            <p class="uvi">UV Index: ${data.current.uvi}</p>
+            `;
+
+            var fiveDay = document.getElementById("5day");
+            // Data response includes array of daily weather
+            // Loop through data.daily array to grab next x days
+            var dailyWeather = data.daily;
+
+            var innerHtml = ``;
+            // Loop that goes through daily array, stops at 5
+            for (var i = 0; i < 6; i++) {
+              // Convert timestamp to day
+              var day = new Date(
+                dailyWeather[i].dt * 1000
+              ).toLocaleDateString();
+              console.log("Current Day in Loop", day);
+              console.log(
+                "CURRENT DAY Humidity IN LOOP: ",
+                dailyWeather[i].humidity
+              );
+              // TODO: Figure out way to concatenate strings for each loop iteration
+              innerHtml = `
+              <div class="col-md-2">
+              <h3>
+              Day: ${day}
+              </h3>
+              <p>
+              Humidity: ${dailyWeather[i].humidity}
+              </p>
+              </div>
+              `;
+            }
+
+            console.log("inner html:", innerHtml);
+            // Set 5day div inner html
+            fiveDay.innerHTML = innerHtml;
+          });
+        } else {
+        }
       });
-    } else {
-      alert("Error Please enter a different city");
-    }
-  });
+    });
 });
-var showCityWeather = function () {};
