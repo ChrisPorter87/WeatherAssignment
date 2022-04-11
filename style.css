@@ -1,0 +1,14 @@
+@media only screen and (max-width: 530px) {
+  /* Reducing h1 text size for mobile screens */
+  .navbar .center {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  /* Shifts icons in h1 onto own lines */
+  .navbar .center i {
+    display: block;
+    line-height: 1.25;
+  }
+}

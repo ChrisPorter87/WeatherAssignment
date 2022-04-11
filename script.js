@@ -134,7 +134,7 @@ button.addEventListener("click", function () {
             <h4>
               ${cityInput} ${moment.format("MM/DD/YYYY")}  </h4>
             <p class="temperature">Temperature: ${data.current.temp}</p>
-
+            
             <p class="humidity">Humidity: ${data.current.humidity}  %</p>
             <p class="windspeed">Wind Speed: ${data.current.wind_speed}</p>
             <p class="uvi">UV Index: ${data.current.uvi}</p>
@@ -174,7 +174,7 @@ button.addEventListener("click", function () {
               Humidity: ${dailyWeather[i].humidity}%
               </p>
               <p> Temperature: ${dailyWeather[i].temp.day}
-              <img src=“http://openweathermap.org/img/wn/" + daily.[0].weather.[0].icon".png">
+              <img src=https://openweathermap.org/img/wn/${dailyWeather[0].weather[0].icon}.png>
               </div>
               `;
             }
@@ -184,17 +184,17 @@ button.addEventListener("click", function () {
             fiveDay.innerHTML = innerHtml;
             for (var i = 0; i < 5; i++) {
               var dailyWeather = document.createElement("div");
-              dailyWeather.innerHTML = `
-              <div class="col-md-2">
-              <h5>
-              Day: ${day.add(i + 1, "days").format("MM/DD/YYYY")}
-              </h5>
-              <p>
-              Humidity: ${dailyWeather[i].humidity}%
-              </p>
-              <p> Temperature: ${dailyWeather[i].temp.day}
-              </div>
-              `;
+              // dailyWeather.innerHTML = `
+              // <div class="col-md-2">
+              // <h5>
+              // Day: ${"MM/DD/YYYY"}
+              // </h5>
+              // <p>
+              // Humidity: ${dailyWeather[i].humidity}%
+              // </p>
+              // <p> Temperature: ${dailyWeather[i].temp.day}
+              // </div>
+              // `;
             }
           });
         } else {
