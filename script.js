@@ -131,8 +131,8 @@ button.addEventListener("click", function () {
             var currentWeather = document.getElementById("currentWeather");
             currentWeather.innerHTML = `
 
-            <h2>
-              ${cityInput} ${moment.format("MM/DD/YYYY")}  </h2>
+            <h4>
+              ${cityInput} ${moment.format("MM/DD/YYYY")}  </h4>
             <p class="temperature">Temperature: ${data.current.temp}</p>
 
             <p class="humidity">Humidity: ${data.current.humidity}  %</p>
@@ -147,7 +147,12 @@ button.addEventListener("click", function () {
 
             var innerHtml = ``;
             // Loop that goes through daily array, stops at 5
-            for (var i = 0; i < 6; i++) {
+
+            //DJC create html elements
+            //get list of elements
+            //loop through them with similar for loop to below
+            //add data to different element each time
+            for (var i = 0; i < 5; i++) {
               // Convert timestamp to day
               var day = new Date(
                 dailyWeather[i].dt * 1000
@@ -158,14 +163,18 @@ button.addEventListener("click", function () {
                 dailyWeather[i].humidity
               );
               // TODO: Figure out way to concatenate strings for each loop iteration
-              innerHtml = `
+
+              //djc this will add to different html element every loop
+              innerHtml += `
               <div class="col-md-2">
-              <h3>
+              <h5>
               Day: ${day}
-              </h3>
+              </h5>
               <p>
-              Humidity: ${dailyWeather[i].humidity}
+              Humidity: ${dailyWeather[i].humidity}%
               </p>
+              <p> Temperature: ${dailyWeather[i].temp.day}
+              <img src=“http://openweathermap.org/img/wn/" + daily.[0].weather.[0].icon".png">
               </div>
               `;
             }
@@ -173,6 +182,20 @@ button.addEventListener("click", function () {
             console.log("inner html:", innerHtml);
             // Set 5day div inner html
             fiveDay.innerHTML = innerHtml;
+            for (var i = 0; i < 5; i++) {
+              var dailyWeather = document.createElement("div");
+              dailyWeather.innerHTML = `
+              <div class="col-md-2">
+              <h5>
+              Day: ${day.add(i + 1, "days").format("MM/DD/YYYY")}
+              </h5>
+              <p>
+              Humidity: ${dailyWeather[i].humidity}%
+              </p>
+              <p> Temperature: ${dailyWeather[i].temp.day}
+              </div>
+              `;
+            }
           });
         } else {
         }
