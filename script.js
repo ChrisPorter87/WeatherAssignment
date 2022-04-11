@@ -64,7 +64,6 @@ button.addEventListener("click", function () {
             console.log(data);
             var currentWeather = document.getElementById("currentWeather");
             currentWeather.innerHTML = `
-
             <h4>
               ${cityInput} ${moment.format("MM/DD/YYYY")}  </h4>
             <p class="temperature">Temperature: ${data.current.temp}</p>
@@ -181,21 +180,21 @@ button.addEventListener("click", function () {
         var saveSearch = function () {
           localStorage.setItem("cities", JSON.stringify(cityArray));
         };
+        saveSearch();
+        // function showCities() {
+        //   var highscores =
+        //     JSON.parse(window.localStorage.getItem("cities")) || [];
 
-        function showCities() {
-          var highscores =
-            JSON.parse(window.localStorage.getItem("cities")) || [];
+        //   highscores.forEach(function (score) {
+        //     // create li tag for each high score
+        //     var liTag = document.createElement("li");
+        //     liTag.textContent = score.initials + " - " + score.score;
 
-          highscores.forEach(function (score) {
-            // create li tag for each high score
-            var liTag = document.createElement("li");
-            liTag.textContent = score.initials + " - " + score.score;
-
-            var cityArrayDisplay = document.getElementById("previous-searches");
-            cityArrayDisplay.appendChild(liTag);
-          });
-          showCities();
-        }
+        //     var cityArrayDisplay = document.getElementById("previous-searches");
+        //     cityArrayDisplay.appendChild(liTag);
+        //   });
+        //   showCities();
+        // }
       });
     });
 });
