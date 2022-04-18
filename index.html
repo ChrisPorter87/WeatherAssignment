@@ -14,16 +14,17 @@
     <link rel="stylesheet" href="./style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   </head>
-  <header>
+  
+  
+  <body>
+
     <div class="card">
       <div
         class="text-center font-weight-bold bg-primary text-light card-header"
       >
-        <h2>Weather Dashboard</h2>
+        <h1>Weather Dashboard</h1>
       </div>
     </div>
-  </header>
-  <body>
     <div class="font-weight-bold col-3 border col-xs-offset-4">
       Search for a City:
       <div class="input-group">
@@ -35,18 +36,33 @@
         /><input type="submit" value="Submit" class="button" />
       </div>
     </div>
-    <div id="previous-searches" class="card">
+    <div id="previousSearches" class="card">
                         <h4 class="card-header float-left">Previous Searches</h3>
-                        
+                          <div class="row">
+        <div class="col s12 m6">
+                        <h5 class="storageHeader">
+            Click the button below to display your previously searched
+            cities.
+          </h5>
+          <button id="showCities">Display</button>
                         <div class="card-body d-inline-flex flex-wrap">
                             
                         </div>
                       </div>
-    <div id="currentWeather" class="col-9 float-right border border-dark">
-      <h2>Current Weather</h2>
+
+
+    <div id="weatherContent" class="col-9 pb-4 pt-4 border rounded border-dark">
+      <div class="row pb-3 mr-2 ml-2">
+        <div id="currentWeather" class = "col-12 border rounded px-3 py-3">
+      
     </div>
-    <div id="5day" class="col-9 float-right border border-dark">
+    </div>
+    <div class="row pb-2 pt-1 border border-dark">
+      <div class="col-12 ml-2">
       <h2>5 day forecast</h2>
+      </div>
+    </div>
+    <div id="fiveDay" class="row pl-2"></div>
     </div>
   </body>
   <script src="./script.js"></script>

@@ -7,6 +7,7 @@ var citySubmit = document.querySelector("#search-form");
 var button = document.querySelector(".button");
 var weatherDisplayEl = document.querySelector("weatherDisplay");
 var currentWeather = document.querySelector("#currentWeather");
+var cityInputCounter = 0;
 var lat = "";
 var lon = "";
 // let previousSearch = JSON.parse(localStorage.getItem("searches"));
@@ -21,18 +22,27 @@ var lon = "";
 //     }
 //   }
 // }
-var moment = moment();
-var formSubmitHandler = function (event, getCityWeather) {
-  event.preventDefault();
-  var city = cityInput.value.trim();
-  if (city) {
-    getCityWeather(city);
-    weatherDisplayEl.textContent = "";
-    cityInput.value = "";
-  } else {
-    alert("Please enter a city");
+function getCitiesFromStorage() {
+  var currentStorage = localStorage.getItem("cities");
+  if (!currentStorage) {
+    localStorage.setItem("cities", JSON.stringify([]));
+    return [];
   }
-};
+  return JSON.parse(localStorage.getItem("cities"));
+}
+var moment = moment();
+// this form Submit Handler might not being doing anything, could get rid of it
+// var formSubmitHandler = function (event, getCityWeather) {
+//   event.preventDefault();
+//   var city = cityInput.value.trim();
+//   if (city) {
+//     getCityWeather(city);
+//     weatherDisplayEl.textContent = "";
+//     cityInput.value = "";
+//   } else {
+//     alert("Please enter a city");
+//   }
+// };
 button.addEventListener("click", function () {
   cityInput = cityInputEl.value.trim();
   // function getCityWeather(cityName) {
@@ -64,16 +74,17 @@ button.addEventListener("click", function () {
             console.log(data);
             var currentWeather = document.getElementById("currentWeather");
             currentWeather.innerHTML = `
-            <h4>
-              ${cityInput} ${moment.format("MM/DD/YYYY")}  </h4>
+            <h4>Today's date in ${cityInput} is 
+               ${moment.format("MM/DD/YYYY")} <br> and the weather will be </h4>
+
             <p class="temperature">Temperature: ${data.current.temp}</p>
             
             <p class="humidity">Humidity: ${data.current.humidity}  %</p>
             <p class="windspeed">Wind Speed: ${data.current.wind_speed}</p>
             <p class="uvi">UV Index: ${data.current.uvi}</p>
             `;
-
-            var fiveDay = document.getElementById("5day");
+            var cities = data.results;
+            var fiveDay = document.getElementById("fiveDay");
             // Data response includes array of daily weather
             // Loop through data.daily array to grab next x days
             var dailyWeather = data.daily;
@@ -95,7 +106,6 @@ button.addEventListener("click", function () {
                 "CURRENT DAY Humidity IN LOOP: ",
                 dailyWeather[i].humidity
               );
-              // TODO: Figure out way to concatenate strings for each loop iteration
 
               //djc this will add to different html element every loop
               innerHtml += `
@@ -117,48 +127,7 @@ button.addEventListener("click", function () {
             fiveDay.innerHTML = innerHtml;
             for (var i = 0; i < 5; i++) {
               var dailyWeather = document.createElement("div");
-
-              // dailyWeather.innerHTML = `
-              // <div class="col-md-2">
-              // <h5>
-              // Day: ${"MM/DD/YYYY"}
-              // </h5>
-              // <p>
-              // Humidity: ${dailyWeather[i].humidity}%
-              // </p>
-              // <p> Temperature: ${dailyWeather[i].temp.day}
-              // </div>
-              // `;
-              // }
-              // var updateLocalStorage = (city) => {
-              //   // Ensures searched city isn't pushed into array (and then localStorage) if city has already been searched
-              //   if (cityArray.includes(city)) {
-              //     return;
-              //   } else {
-              //     cityArray.push(city);
-
-              //     // Stores for next user visit
-              //     localStorage.setItem("searches", JSON.stringify(cityArray));
-
-              //     // Calls updateSearchHistory to add new search to previous search buttons
-              //     updateSearchHistory();
-              //   }
             }
-
-            // Pulls in previous searches from localStorage
-            // let previousSearch = JSON.parse(localStorage.getItem("searches"));
-
-            // // Removes any null results stored in localStorage
-            // if (previousSearch !== null) {
-            //   for (let i = 0; i < previousSearch.length; i++) {
-            //     if (previousSearch[i] === null) {
-            //       previousSearch.splice(i, i + 1);
-            //     } else {
-            //       // Populates localCityArray to publish previous search buttons
-            //       cityArray.push(previousSearch[i]);
-            //     }
-            //   }
-            // }
           });
 
           cityArray.unshift({ cityInput });
@@ -166,14 +135,6 @@ button.addEventListener("click", function () {
         } else {
           alert("Please Enter a different city");
         }
-        var cityName =
-          JSON.parse(window.localStorage.getItem("cityInfo")) || [];
-
-        // data structure for new scores
-        // var newInfo = {
-        //   score: seconds,
-        //   initials: initials,
-        // };
 
         // write to localstorage
         window.localStorage.setItem("cityInfo", JSON.stringify("cityInfo"));
@@ -181,20 +142,42 @@ button.addEventListener("click", function () {
           localStorage.setItem("cities", JSON.stringify(cityArray));
         };
         saveSearch();
-        // function showCities() {
-        //   var highscores =
-        //     JSON.parse(window.localStorage.getItem("cities")) || [];
-
-        //   highscores.forEach(function (score) {
-        //     // create li tag for each high score
-        //     var liTag = document.createElement("li");
-        //     liTag.textContent = score.initials + " - " + score.score;
-
-        //     var cityArrayDisplay = document.getElementById("previous-searches");
-        //     cityArrayDisplay.appendChild(liTag);
-        //   });
-        //   showCities();
-        // }
       });
     });
+  cityInputEl.value = "";
 });
+// var saveCities = function (cityInput) {
+//   console.log("gruneldjo", getCitiesFromStorage());
+//   var updatedList = getCitiesFromStorage().concat(cityInput);
+//   localStorage.setItem("cities", JSON.stringify(updatedList));
+// };
+
+function loadCitiesFromStorage() {
+  getCitiesFromStorage().forEach(function (city) {
+    //creating the html elements which will display the ingredients
+    var liTag = document.createElement("li");
+    liTag.textContent = city.cityInput;
+    var previousSearches = document.getElementById("previousSearches");
+    previousSearches.appendChild(liTag);
+  });
+}
+
+cityInputCounter++;
+// function showCities() {
+//   var cities = JSON.parse(window.localStorage.getItem("cities")) || [];
+
+//   cities.forEach(function (cityInput) {
+//     // create li tag for each high score
+//     var liTag = document.createElement("li");
+//     liTag.textContent = cityInput;
+
+//     var cityArrayDisplay = document.getElementById("previousSearches");
+//     cityArrayDisplay.appendChild(liTag);
+//   });
+//   cityInput.id = cityInputIdCounter;
+//   saveCities(cityInput);
+//   cityInputCounter++;
+// }
+document
+  .getElementById("showCities")
+  .addEventListener("click", loadCitiesFromStorage);

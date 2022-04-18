@@ -12,3 +12,12 @@
     line-height: 1.25;
   }
 }
+
+li {
+  font-weight: bold;
+  background-color: lightblue;
+  max-width: 15%;
+}
+#fiveDay .card {
+  border: 1px solid white !important;
+}
