@@ -71,6 +71,9 @@ button.addEventListener("click", function () {
         if (response.ok) {
           console.log(response);
           response.json().then(function (data) {
+            var uviIndex = data.current.uvi;
+            console.log(uviIndex);
+
             console.log(data);
             var currentWeather = document.getElementById("currentWeather");
             currentWeather.innerHTML = `
@@ -81,8 +84,29 @@ button.addEventListener("click", function () {
             
             <p class="humidity">Humidity: ${data.current.humidity}  %</p>
             <p class="windspeed">Wind Speed: ${data.current.wind_speed}</p>
-            <p class="uvi">UV Index: ${data.current.uvi}</p>
+            <p class="uvi">UV Index: 
+                    <span id="uvIndexColor" class="px-2 py-2 rounded">${uviIndex}</span>
+            </p>
             `;
+
+            if (uviIndex >= 0 && uviIndex <= 2) {
+              $("#uvIndexColor")
+                .css("background-color", "#3EA72D")
+                .css("color", "white");
+            } else if (uviIndex >= 3 && uviIndex <= 5) {
+              $("#uvIndexColor").css("background-color", "#FFF300");
+            } else if (uviIndex >= 6 && uviIndex <= 7) {
+              $("#uvIndexColor").css("background-color", "#F18B00");
+            } else if (uviIndex >= 8 && uviIndex <= 10) {
+              $("#uvIndexColor")
+                .css("background-color", "#E53210")
+                .css("color", "white");
+            } else {
+              $("#uvIndexColor")
+                .css("background-color", "#B567A4")
+                .css("color", "white");
+            }
+            console.log(data, data.current);
             var cities = data.results;
             var fiveDay = document.getElementById("fiveDay");
             // Data response includes array of daily weather
@@ -117,7 +141,8 @@ button.addEventListener("click", function () {
               Humidity: ${dailyWeather[i].humidity}%
               </p>
               <p> Temperature: ${dailyWeather[i].temp.day}
-              <img src=https://openweathermap.org/img/wn/${dailyWeather[0].weather[0].icon}.png>
+              <p> Wind Speed: ${dailyWeather[i].wind_speed}
+              <img src="https://openweathermap.org/img/wn/${dailyWeather[i].weather[0].icon}.png">
               </div>
               `;
             }
@@ -125,7 +150,7 @@ button.addEventListener("click", function () {
             console.log("inner html:", innerHtml);
             // Set 5day div inner html
             fiveDay.innerHTML = innerHtml;
-            for (var i = 0; i < 5; i++) {
+            for (var i = 0; i < 4; i++) {
               var dailyWeather = document.createElement("div");
             }
           });

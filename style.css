@@ -17,7 +17,14 @@ li {
   font-weight: bold;
   background-color: lightblue;
   max-width: 15%;
+  font-size: 25px;
 }
 #fiveDay .card {
   border: 1px solid white !important;
 }
+/* h2 {
+  background-color: lightblue;
+}
+.fiveDay {
+  background-color: lightblue;
+} */
