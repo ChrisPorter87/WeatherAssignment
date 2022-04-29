@@ -47,7 +47,7 @@ button.addEventListener("click", function () {
   cityInput = cityInputEl.value.trim();
   // function getCityWeather(cityName) {
   fetch(
-    "http://api.openweathermap.org/geo/1.0/direct?q=" +
+    "https://api.openweathermap.org/geo/1.0/direct?q=" +
       cityInput +
       "&appid=" +
       apiKey
